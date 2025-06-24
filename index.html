@@ -3,63 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perjalanan Bunga untuk Sania!</title>
+    <title>Buku Harian Cinta Sania 💖</title>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            /* overflow-x: hidden; <= Ini dihapus agar horizontal scroll bisa muncul jika dibutuhkan */
-            overflow-y: auto; /* Izinkan scroll vertikal otomatis */
-        }
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+            margin: 0;
+            background-image: linear-gradient(to right top, #ffecd2 0%, #fcb69f 100%); /* Gradien peach lembut */
             color: #4a4a4a;
             text-align: center;
-            position: relative;
+            overflow-x: hidden; /* Sembunyikan scroll horizontal */
+            overflow-y: auto; /* Izinkan scroll vertikal */
         }
         .container {
             background-color: rgba(255, 255, 255, 0.95);
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             max-width: 600px;
             width: 90%;
             margin: 20px auto;
+            position: relative;
             z-index: 10;
         }
         h1 {
-            color: #007bff;
-            font-size: 2.8em;
+            color: #d81b60; /* Merah muda gelap */
+            font-size: 3em;
             margin-bottom: 20px;
-            text-shadow: 1px 1px #e0f2f7;
+            text-shadow: 2px 2px #f8bbd0;
         }
         h2 {
-            color: #e91e63;
-            font-size: 2.2em;
-            margin-bottom: 20px;
+            color: #ff5252; /* Merah cerah */
+            font-size: 2em;
+            margin-bottom: 15px;
         }
         p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            margin-bottom: 15px;
-            text-align: justify;
-            word-wrap: break-word; /* Penting agar teks panjang otomatis turun baris */
-            overflow-wrap: break-word; /* Untuk kompatibilitas yang lebih luas */
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 25px;
         }
-        .center-text {
-            text-align: center;
-            margin-top: 25px;
-        }
-
-        /* Gaya untuk tombol statis "Mulai Tantangan" */
-        #startJourneyButton {
-            background-color: #007bff;
+        button {
+            background-color: #ff5252;
             color: white;
             border: none;
             padding: 15px 30px;
@@ -68,146 +56,360 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin-top: 30px;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
         }
-        #startJourneyButton:hover {
-            background-color: #0056b3;
+        button:hover {
+            background-color: #d81b60;
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
 
-        /* Gaya untuk tombol bergerak "Selanjutnya" */
-        #nextButton {
-            position: fixed; /* Penting agar bisa bergerak di seluruh viewport */
-            background-color: #ffc107;
-            color: #333;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: all 0.3s ease; /* Transisi halus saat bergerak */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 20;
-            min-width: 150px;
+        /* Gaya untuk Input Password */
+        #passwordEntryArea input[type="text"] {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ff5252;
+            font-size: 1.1em;
+            width: calc(100% - 24px);
+            max-width: 300px;
+            margin-top: 15px;
             text-align: center;
-            /* Posisi awal disembunyikan dan akan diatur oleh JS */
-            display: none; 
         }
-        #nextButton:hover {
-            background-color: #ff9800;
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        #passwordEntryArea input[type="text"]:focus {
+            outline: none;
+            border-color: #d81b60;
+            box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.2);
         }
-        /* Animasi pulse akan ditambahkan oleh JS saat tombol bergerak */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.02); }
+        #passwordEntryArea #passwordFeedback {
+            color: #d32f2f;
+            font-weight: bold;
+            margin-top: 10px;
         }
 
-        #flowerContainer {
-            display: none;
-            margin-top: 30px;
-        }
-        #flowerImage {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 4px solid #ff80ab;
-        }
-        .final-message {
-            font-size: 1.5em;
-            margin-top: 30px;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .whatsapp-button-final {
-            background-color: #25D366;
+        /* Gaya untuk Quiz Pilihan Ganda (Konsep Pertama) */
+        #quizGameArea .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
             margin-top: 20px;
         }
-        .whatsapp-button-final:hover {
+        #quizGameArea .option-button {
+            background-color: #f7cac9; /* Pink muda */
+            color: #a56161;
+            border: 2px solid #ffadad;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1 1 calc(50% - 20px);
+            max-width: calc(50% - 20px);
+        }
+        #quizGameArea .option-button:hover {
+            background-color: #ffadad;
+            transform: translateY(-2px);
+        }
+        #quizGameArea .option-button.correct {
+            background-color: #a5d6a7;
+            border-color: #66bb6a;
+        }
+        #quizGameArea .option-button.wrong {
+            background-color: #ef9a9a;
+            border-color: #e57373;
+        }
+        #quizGameArea .option-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        #quizGameArea #quizFeedback {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        /* Hasil Quiz & Rekap Akhir */
+        #resultArea {
+            display: none;
+        }
+        .result-message {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+        }
+        .success-message {
+            color: #4CAF50;
+        }
+        .fail-message {
+            color: #ef5350;
+        }
+        .whatsapp-button {
+            background-color: #25D366;
+        }
+        .whatsapp-button:hover {
             background-color: #1DA851;
+        }
+        #successImage { /* Gambar untuk hadiah kemenangan quiz */
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 3px solid #ff5252;
+        }
+        #recapFinalMessage {
+            margin-top: 40px;
+            border-top: 2px dashed #ffadad;
+            padding-top: 30px;
+        }
+        #recapFinalMessage p {
+            font-size: 1.3em;
+            text-align: center;
+            line-height: 1.8;
+            color: #6a1b9a; /* Warna ungu */
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="container" id="introContainer">
-        <h1>Sania Sayangku, Ada Rahasia! 🤫</h1>
-        <p>Sania sayangku, ada sesuatu yang sangat penting, sangat mendalam, dan sangat spesial yang ingin aku sampaikan. Sesuatu yang sudah aku renungkan berhari-hari, bahkan berminggu-minggu, memikirkan bagaimana cara terbaik untuk mengungkapkannya. Ini bukan hal sepele, ini adalah puncak dari segala pemikiranku, esensi dari setiap helaan napasku ketika teringat akan dirimu. Kamu tahu kan, aku ini orangnya nggak suka basa-basi, tapi untuk hal sepenting ini, rasanya aku harus memberikan pengantar yang layak, yang bisa mencerminkan betapa besar makna ini bagiku.</p>
-        <p>Jadi gini, kamu siap? Tarik napas dulu, buang perlahan. Pastikan kamu duduk dengan nyaman, di tempat yang tenang, tanpa gangguan. Matikan notifikasi HPmu sejenak, siapkan secangkir teh hangat atau kopi favoritmu, karena momen ini butuh konsentrasi penuh. Ini bukan sekadar kata-kata biasa, ini adalah sebuah manifestasi, sebuah perwujudan dari... ah, sudahlah, nanti kamu juga tahu sendiri. Intinya, ini sesuatu yang akan mengubah caramu memandang dunia (mungkin lebay sih, tapi ya begitulah perasaanku saat ini).</p>
-        <p>Aku bahkan sampai bergadang memikirkan bagaimana aku akan menyampaikan ini. Apakah lewat puisi? Surat cinta klasik? Lagu? Atau mungkin tarian kontemporer? Tapi rasanya semua itu belum cukup. Ini butuh sesuatu yang lebih personal, lebih 'aku', yang bisa langsung sampai ke hatimu tanpa filter. Maka, setelah meditasi panjang di bawah purnama (oke, ini fiksi, aku cuma di kamar, kok), aku memutuskan untuk menggunakan media ini. Media yang sederhana, tapi penuh makna. Kamu pasti penasaran banget kan? Udah geregetan pengen tahu? Nah, bagus! Itu tandanya kamu siap!</p>
-        <p class="center-text">Sekarang, kamu sudah siap mental? Yakin banget? Kalau sudah siap, klik tombol 'Mulai Tantangan Gerak!' ini untuk melanjutkan perjalanan ini. Ini dia baru tantangannya! 😉</p>
-        <button id="startJourneyButton" onclick="startMovingButtonChallenge()">Mulai Tantangan Gerak!</button>
+    <div class="container" id="passwordEntryArea">
+        <h1>Halo Sania! 👋</h1>
+        <p>Buku Harian Cinta kita terkunci, hanya kamu yang punya kuncinya!</p>
+        <p style="font-weight: bold;">Masukkan password untuk melanjutkan:</p>
+        <input type="text" id="passwordInput" placeholder="Password (hari bulan)">
+        <p style="font-size: 0.9em; color: #888;">Petunjuk: Tanggal paling indah di kalender kisah kita (contoh: 15 Juni).</p>
+        <button onclick="checkPassword()">Masuk!</button>
+        <p id="passwordFeedback"></p>
     </div>
 
-    <button id="nextButton" onclick="handleNextClick()">Tangkap Aku! (0/10)</button>
+    <div class="container" id="mainContentArea" style="display: none;">
+        <div id="quizGameArea">
+            <h2>Quiz Perjalanan Kita! 🚀</h2>
+            <p id="quizQuestion"></p>
+            <div id="optionsContainer" class="options-container">
+                </div>
+            <input type="text" id="textAnswerInput" placeholder="Ketik jawabanmu di sini..." style="display: none;">
+            <button id="submitTextAnswerBtn" onclick="checkTextAnswer()" style="display: none;">Kirim Jawaban</button>
+            
+            <p id="quizFeedback"></p>
+            <p>Skor benar: <span id="currentScore">0</span> / <span id="totalQuestionsCount">5</span></p>
+        </div>
 
-    <div class="container" id="flowerContainer" style="display: none;">
-        <h2>Ini Dia Hadiah Spesial untukmu! 🌸</h2>
-        <img id="flowerImage" src="https://i.imgur.com/xgwQ8hf.png" alt="Bunga Spesial untuk Sania">
-        <p class="final-message">Semoga bunga ini bisa bikin harimu seindah senyummu, Sayang.</p>
-        <p class="final-message">Dan ada pesan khusus lagi yang mau aku sampaiin... 😉</p>
-        <button onclick="revealPantun()">Lihat Pesan Rahasia!</button>
+        <div id="resultArea" style="display: none;">
+            <div id="successResult">
+                <h2 class="result-message success-message">WOW! Kamu HEBAT! 🎉</h2>
+                <p style="font-size: 1.2em;">Selamat, Sania! Kamu berhasil menjawab semua pertanyaan dengan sempurna!</p>
+                <p style="font-size: 1.2em;">Ini hadiah spesial dariku, dan mari kita lanjutkan rekap kita! 😉</p>
+                <img id="successImage" src="https://i.imgur.com/iliNnu4.jpeg" alt="Hadiah Spesial Kaka">
+                <button onclick="showFinalRecap()">Lanjut ke Rekap Final!</button>
+            </div>
+
+            <div id="failResult" style="display: none;">
+                <h2 class="result-message fail-message">Ups! Belum Berhasil Sania! 😅</h2>
+                <p style="font-size: 1.2em;">Sayang sekali, kamu belum berhasil menjawab semua pertanyaan dengan benar...</p>
+                <p style="font-size: 1.5em; color: #ff5252; font-weight: bold;">Tantanganmu: Kirim "PAP 50" ke aku sekarang juga! 😂 (Selfie lucu, ekspresi konyol, bebas!)</p>
+                <p style="font-size: 1.1em; margin-top: 20px;">Klik tombol di bawah untuk kirim PAP 50 ke aku. Jangan curang ya! 😉</p>
+                <a id="whatsappFailBtn" href="#" target="_blank" class="whatsapp-button button">Kirim PAP 50 Sekarang!</a>
+                <button onclick="startQuiz()">Coba Lagi Quiznya!</button>
+            </div>
+        </div>
+
+        <div id="recapFinalMessage" style="display: none;">
+            <h2>Momen-momen Terbaik Kita! 🌟</h2>
+            <p>Sania, dari hari pertama kita bertemu sampai detik ini, setiap momen bersamamu adalah anugerah terindah. Kita sudah melewati banyak hal, dari tawa lepas sampai tantangan yang bikin kita makin kuat.</p>
+            <p>Mulai dari [Sebutkan 1-2 momen lucu/spesial, contoh: "pas kamu nyasar pertama kali mau ke rumahku"] hingga [Sebutkan 1-2 momen romantis/berkesan, contoh: "malam kita lihat bintang bareng"], semuanya adalah bagian dari kisah kita yang tak tergantikan.</p>
+            <p>Terima kasih sudah menjadi bagian terindah dalam hidupku. Kamu adalah jawaban atas doaku, dan aku bersyukur setiap hari memilikimu.</p>
+            <p style="font-size: 1.5em; color: #d81b60; font-weight: bold;">Aku sayang kamu banget, Sania! Selamanya! ❤️</p>
+            <a href="https://wa.me/6282295941919?text=Aku%20juga%20sayang%20kamu%20Kak!%20Makasih%20rekapnya%20%F0%9F%98%98" target="_blank">
+                <button class="whatsapp-button">Kirim Balasan Cinta ke Kaka!</button>
+            </a>
+            <button onclick="startQuiz()">Main Quiz Lagi!</button>
+        </div>
     </div>
 
     <script>
-        let clickCount = 0;
-        const maxClicks = 10; // Jumlah klik sebelum bunga muncul
+        const originalQuizQuestions = [
+            {
+                type: "text", // Ini teks karena tanggal jadian
+                question: "Kapan tanggal jadian kita? (contoh: 11 Februari)",
+                answer: "11 februari"
+            },
+            {
+                type: "mc",
+                question: "Siapa nama lengkap pacar Sania?",
+                options: ["Kaka Ganteng Aja", "Kaka Kurniawan Ganteng Banget", "Kaka Sania", "Kaka Kurniawan Aja"],
+                answer: "kaka kurniawan ganteng banget"
+            },
+            {
+                type: "mc",
+                question: "Apa makanan kesukaan pacar Sania?",
+                options: ["Pizza", "Sate", "Apa aja yang penting bisa dimakan", "Nasi Padang"],
+                answer: "apa aja yang penting bisa dimakan"
+            },
+            {
+                type: "mc",
+                question: "Apa nama akun IG pacar Sania?",
+                options: ["kaka_kurniawan", "kakaaaaaaa____", "kaka.ganteng", "kaka_official"],
+                answer: "kakaaaaaaa____"
+            },
+            {
+                type: "mc",
+                question: "Pas momen apa terakhir ke rumah Kaka?",
+                options: ["Ulang Tahun", "Idul Fitri", "Graduation", "Liburan"],
+                answer: "graduation"
+            }
+        ];
+        
+        let shuffledQuizQuestions = [];
+        let currentQuizQuestionIndex = 0;
+        let quizScore = 0;
+        const totalQuizQuestions = originalQuizQuestions.length; // 5 pertanyaan
 
-        function startMovingButtonChallenge() {
-            document.getElementById('introContainer').style.display = 'none'; // Sembunyikan intro dan tombol statis
-            document.getElementById('startJourneyButton').style.display = 'none';
+        const password = "11 februari"; // Password: Tanggal jadian
+        const whatsappFailNumber = "6282295941919"; // Nomor HP lo
+        const whatsappFailMessage = "Kiriman 50 PAP dari aku karena kalah quiz rekap nih! 😂 Aku janji ga curang!"; // Pesan WhatsApp untuk kalah
 
-            const nextButton = document.getElementById('nextButton');
-            nextButton.style.display = 'block'; // Tampilkan tombol bergerak
-            
-            // Set posisi awal random agar tidak langsung di tengah lagi
-            moveButtonRandomly(nextButton); 
-            // Tambahkan animasi pulse setelah mulai bergerak
-            nextButton.style.animation = 'pulse 1.5s infinite alternate'; 
-        }
+        function checkPassword() {
+            const inputPassword = document.getElementById('passwordInput').value.toLowerCase().trim();
+            const passwordFeedback = document.getElementById('passwordFeedback');
 
-        function handleNextClick() {
-            clickCount++;
-            const button = document.getElementById('nextButton');
-
-            if (clickCount < maxClicks) {
-                // Pindahkan tombol secara acak
-                moveButtonRandomly(button);
-                button.innerText = `Tangkap Aku! (${clickCount}/${maxClicks})`;
+            if (inputPassword === password) {
+                document.getElementById('passwordEntryArea').style.display = 'none';
+                document.getElementById('mainContentArea').style.display = 'block';
+                startQuiz();
             } else {
-                // Setelah maxClicks, tampilkan bunga
-                document.getElementById('introContainer').style.display = 'none'; // Pastikan intro sudah hilang
-                button.style.display = 'none'; // Sembunyikan tombol
-                document.getElementById('flowerContainer').style.display = 'block';
+                passwordFeedback.innerText = "Password salah! Coba lagi ya, ingat petunjuknya 😉";
             }
         }
 
-        function moveButtonRandomly(button) {
-            // Hitung ulang posisi maksimum berdasarkan ukuran jendela saat ini
-            // Kurangi ukuran tombol itu sendiri agar tidak keluar layar
-            const padding = 20; // Jarak dari tepi
-            const maxX = window.innerWidth - button.offsetWidth - (2 * padding);
-            const maxY = window.innerHeight - button.offsetHeight - (2 * padding);
+        function startQuiz() {
+            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('recapFinalMessage').style.display = 'none'; // Sembunyikan rekap final
+            document.getElementById('quizGameArea').style.display = 'block';
             
-            const newX = Math.random() * maxX + padding;
-            const newY = Math.random() * maxY + padding;
-
-            button.style.left = `${newX}px`;
-            button.style.top = `${newY}px`;
+            shuffledQuizQuestions = [...originalQuizQuestions].sort(() => Math.random() - 0.5);
+            
+            currentQuizQuestionIndex = 0;
+            quizScore = 0;
+            document.getElementById('currentScore').innerText = quizScore;
+            document.getElementById('totalQuestionsCount').innerText = totalQuizQuestions;
+            displayQuizQuestion();
         }
 
+        function displayQuizQuestion() {
+            if (currentQuizQuestionIndex < totalQuizQuestions) {
+                const quizData = shuffledQuizQuestions[currentQuizQuestionIndex];
+                document.getElementById('quizQuestion').innerText = quizData.question;
+                document.getElementById('quizFeedback').innerText = ''; 
+                
+                const optionsContainer = document.getElementById('optionsContainer');
+                const textAnswerInput = document.getElementById('textAnswerInput');
+                const submitTextAnswerBtn = document.getElementById('submitTextAnswerBtn');
 
-        function revealPantun() {
-            const whatsappNumber = "6282295941919"; // Nomor HP lo
-            const pantunMessage = `Buah durian di atas peti,\nDibawa Abang ke Kota Batu.\nSenyum manismu memikat hati,\nBoleh dong kirim satu PAP-mu?`;
-            
-            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(pantunMessage)}`;
-            
-            // Redirect ke WhatsApp
-            window.location.href = whatsappLink;
+                if (quizData.type === "mc") {
+                    optionsContainer.style.display = 'flex';
+                    textAnswerInput.style.display = 'none';
+                    submitTextAnswerBtn.style.display = 'none';
+                    optionsContainer.innerHTML = ''; 
+
+                    const shuffledOptions = [...quizData.options].sort(() => Math.random() - 0.5);
+
+                    shuffledOptions.forEach(option => {
+                        const button = document.createElement('button');
+                        button.classList.add('option-button');
+                        button.innerText = option;
+                        button.onclick = () => checkQuizAnswer(option, quizData.answer, button, quizData.type);
+                        optionsContainer.appendChild(button);
+                    });
+                } else if (quizData.type === "text") {
+                    optionsContainer.style.display = 'none';
+                    textAnswerInput.style.display = 'block';
+                    submitTextAnswerBtn.style.display = 'block';
+                    textAnswerInput.value = ''; 
+                    textAnswerInput.focus();
+                    textAnswerInput.onkeyup = function(event) {
+                        if (event.key === 'Enter') {
+                            checkQuizAnswer(this.value, quizData.answer, null, quizData.type);
+                        }
+                    };
+                }
+            } else {
+                showQuizResult();
+            }
         }
+
+        function checkQuizAnswer(selectedInput, correctAnswer, clickedButton = null, type) {
+            const userAnswer = selectedInput.toLowerCase().trim();
+            const feedbackElement = document.getElementById('quizFeedback');
+            let isCorrect = (userAnswer === correctAnswer.toLowerCase().trim());
+
+            // Logika khusus untuk pertanyaan tanggal jadian (selalu benar)
+            if (shuffledQuizQuestions[currentQuizQuestionIndex].question.includes("tanggal jadian")) {
+                 isCorrect = true; // Selalu anggap benar untuk pertanyaan tanggal jadian
+            }
+
+            if (type === "mc") {
+                const allOptionButtons = document.querySelectorAll('#optionsContainer .option-button');
+                allOptionButtons.forEach(button => button.disabled = true);
+
+                if (isCorrect) {
+                    feedbackElement.style.color = '#4CAF50';
+                    feedbackElement.innerText = "Benar! 🎉"; 
+                    clickedButton.classList.add('correct');
+                    quizScore++;
+                } else {
+                    feedbackElement.style.color = '#d32f2f';
+                    feedbackElement.innerText = "Salah! 😅"; 
+                    clickedButton.classList.add('wrong');
+                    allOptionButtons.forEach(button => {
+                        if (button.innerText.toLowerCase().trim() === correctAnswer.toLowerCase().trim()) {
+                            button.classList.add('correct');
+                        }
+                    });
+                }
+            } else if (type === "text") {
+                const textAnswerInput = document.getElementById('textAnswerInput');
+                const submitTextAnswerBtn = document.getElementById('submitTextAnswerBtn');
+                textAnswerInput.disabled = true;
+                submitTextAnswerBtn.disabled = true;
+
+                if (isCorrect) {
+                    feedbackElement.style.color = '#4CAF50';
+                    feedbackElement.innerText = "Benar! 🎉";
+                    quizScore++;
+                } else {
+                    feedbackElement.style.color = '#d32f2f';
+                    feedbackElement.innerText = `Salah! Jawaban: "${correctAnswer}" 😅`;
+                }
+            }
+            
+            document.getElementById('currentScore').innerText = quizScore;
+
+            currentQuizQuestionIndex++;
+            setTimeout(displayQuizQuestion, 2000); // Lanjut pertanyaan berikutnya setelah 2 detik
+        }
+
+        function showQuizResult() {
+            document.getElementById('quizGameArea').style.display = 'none';
+            document.getElementById('resultArea').style.display = 'block';
+
+            if (quizScore === totalQuizQuestions) { // Jika semua benar
+                document.getElementById('successResult').style.display = 'block';
+                document.getElementById('failResult').style.display = 'none';
+            } else {
+                document.getElementById('successResult').style.display = 'none';
+                document.getElementById('failResult').style.display = 'block';
+                const whatsappLink = `https://wa.me/${whatsappFailNumber}?text=${encodeURIComponent(whatsappFailMessage)}`;
+                document.getElementById('whatsappFailBtn').href = whatsappLink;
+            }
+        }
+
+        function showFinalRecap() {
+            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('recapFinalMessage').style.display = 'block';
+        }
+
     </script>
 </body>
 </html>
