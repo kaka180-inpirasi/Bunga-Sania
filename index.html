@@ -8,14 +8,14 @@
         html, body {
             height: 100%;
             margin: 0;
-            overflow-x: hidden;
-            /* overflow-y: auto; */ /* Hapus ini atau ganti auto */
+            /* overflow-x: hidden; <= Ini dihapus agar horizontal scroll bisa muncul jika dibutuhkan */
+            overflow-y: auto; /* Izinkan scroll vertikal otomatis */
         }
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Ganti center ke flex-start agar konten di atas bisa discroll */
+            justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
             background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
@@ -49,6 +49,8 @@
             line-height: 1.8;
             margin-bottom: 15px;
             text-align: justify;
+            word-wrap: break-word; /* Penting agar teks panjang otomatis turun baris */
+            overflow-wrap: break-word; /* Untuk kompatibilitas yang lebih luas */
         }
         .center-text {
             text-align: center;
@@ -57,7 +59,7 @@
 
         /* Gaya untuk tombol statis "Mulai Tantangan" */
         #startJourneyButton {
-            background-color: #007bff; /* Biru */
+            background-color: #007bff;
             color: white;
             border: none;
             padding: 15px 30px;
@@ -77,7 +79,7 @@
         /* Gaya untuk tombol bergerak "Selanjutnya" */
         #nextButton {
             position: fixed; /* Penting agar bisa bergerak di seluruh viewport */
-            background-color: #ffc107; /* Kuning cerah */
+            background-color: #ffc107;
             color: #333;
             border: none;
             padding: 15px 30px;
@@ -94,7 +96,7 @@
         }
         #nextButton:hover {
             background-color: #ff9800;
-            transform: scale(1.05); /* Sedikit membesar saat hover */
+            transform: scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
         /* Animasi pulse akan ditambahkan oleh JS saat tombol bergerak */
@@ -185,13 +187,12 @@
         function moveButtonRandomly(button) {
             // Hitung ulang posisi maksimum berdasarkan ukuran jendela saat ini
             // Kurangi ukuran tombol itu sendiri agar tidak keluar layar
-            const maxX = window.innerWidth - button.offsetWidth;
-            const maxY = window.innerHeight - button.offsetHeight;
-            
-            // Pastikan tombol tetap di dalam viewport dan tidak terlalu dekat tepi
             const padding = 20; // Jarak dari tepi
-            const newX = Math.random() * (maxX - 2 * padding) + padding;
-            const newY = Math.random() * (maxY - 2 * padding) + padding;
+            const maxX = window.innerWidth - button.offsetWidth - (2 * padding);
+            const maxY = window.innerHeight - button.offsetHeight - (2 * padding);
+            
+            const newX = Math.random() * maxX + padding;
+            const newY = Math.random() * maxY + padding;
 
             button.style.left = `${newX}px`;
             button.style.top = `${newY}px`;
